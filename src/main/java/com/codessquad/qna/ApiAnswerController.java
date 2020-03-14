@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
-@Controller
-@RequestMapping("/questions")
-public class AnswerController {
+@RestController
+@RequestMapping("/api/questions")
+public class ApiAnswerController {
     @Autowired
     private AnswerRepository answerRepository;
     @Autowired
     private QuestionRepository questionRepository;
 
     @PostMapping("/{questionId}/answers")
-    public String answer(@PathVariable Long questionId,
+    public Answer answer(@PathVariable Long questionId,
                          String contents,
                          HttpSession httpSession,
                          Model model) {
@@ -26,11 +26,10 @@ public class AnswerController {
             hasPermission(httpSession);
             Question question = findQuestionById(questionRepository, questionId);
             Answer answer = new Answer(question, contents, sessionedUser);
-            answerRepository.save(answer);
-            return String.format("redirect:/questions/%d", questionId);
+            return answerRepository.save(answer);
         } catch (IllegalStateException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "/user/login";
+            return null;
         }
     }
 

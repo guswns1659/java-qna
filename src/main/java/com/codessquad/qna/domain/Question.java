@@ -1,5 +1,10 @@
 package com.codessquad.qna.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -9,22 +14,29 @@ import java.util.List;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty
     private Long id;
 
     @Column(nullable = false)
+    @JsonProperty
     private String title;
+    @JsonProperty
     private LocalDateTime createdDate;
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
+    @JsonProperty
     private User writer;
 
     @OneToMany(mappedBy = "question")
     @OrderBy("id asc")
+    @JsonIgnore
     private List<Answer> answers;
 
     @Lob
+    @JsonProperty
     private String contents;
+    @JsonProperty
     private boolean deleted;
 
     public Question() {
@@ -100,14 +112,7 @@ public class Question {
 
     @Override
     public String toString() {
-        return "Question{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", createdDate=" + createdDate +
-                ", writer=" + writer +
-                ", answers=" + answers +
-                ", contents='" + contents + '\'' +
-                '}';
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
     }
 
     public void update(String title, String contents) {

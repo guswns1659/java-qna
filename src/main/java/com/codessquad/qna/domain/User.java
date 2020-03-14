@@ -1,5 +1,10 @@
 package com.codessquad.qna.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -7,19 +12,26 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty
     private Long id;
 
     @Column(nullable = false, length = 20)
+    @JsonProperty
     private String userId;
+    @JsonProperty
     private String password;
+    @JsonProperty
     private String name;
+    @JsonProperty
     private String email;
 
     @OneToMany(mappedBy = "writer")
     @OrderBy("id asc")
+    @JsonIgnore
     private List<Question> questions;
     @OneToMany(mappedBy = "writer")
     @OrderBy("id asc")
+    @JsonIgnore
     private List<Answer> answers;
 
     public Long getId() {
@@ -80,14 +92,9 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", userId='" + userId + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
     }
+
 
     public void update(String name, String email, String newPassword) {
         this.name = name;
