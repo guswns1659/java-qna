@@ -25,6 +25,13 @@ function addAnswer(e) {
   
   function onSuccess(data, status) {
     console.log(data);
+    var answerTemplate = $("#answerTemplate").html();
+    var template = Handlebars.compile(answerTemplate);
+    // var template = answerTemplatetemplate.format(data.writer.name, data.formattedCreatedDate,
+    //     data.contents, data.id, data.id);
+    var html = template(data);
+    // 여기가 문제!
+    $(".qna-comment-slipp-articles").prepend(html);
   }
 }
 
