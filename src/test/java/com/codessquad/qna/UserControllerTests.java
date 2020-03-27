@@ -48,10 +48,6 @@ public class UserControllerTests {
         hyunjun.setEmail("guswns1659@gamil.com");
     }
 
-    //    @GetMapping("/form")
-//    public String userForm() {
-//        return "user/form";
-//    }
     @Test
     void testCreateForm() throws Exception {
         mockMvc.perform(get("/users/form")).andExpect(status().isOk()).andExpect(view().name("user/form"));
@@ -67,19 +63,8 @@ public class UserControllerTests {
         mockMvc.perform(get("/users/loginForm")).andExpect(status().isOk()).andExpect(view().name("user/logi"));
     }
 
-    //    @GetMapping("")
-//    public String users(Model model) {
-//        model.addAttribute("users", userRepository.findAll());
-//        return "user/list";
-//    }
     @Test
     void testUsers() throws Exception {
         mockMvc.perform(get("/users")).andExpect(status().isOk()).andExpect(model().attribute("users", userRepository.findAll())).andExpect(view().name("user/list"));
     }
-    //    @PostMapping("/create")
-//    public String create(User user) {
-//        userRepository.save(user);
-//        return "redirect:/users";
-//    }
-
 }

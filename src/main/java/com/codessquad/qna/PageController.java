@@ -40,7 +40,7 @@ public class PageController {
         return "/index";
     }
 
-    @GetMapping("/{index}")
+    @GetMapping("/?page={index}")
     public String showPage(@PathVariable int index, Model model) {
         List<PageWrapper> pageWrappers = createPages(this.totalPages);
         List<PageWrapper> footerPageNumbers = getFooterPageNumbers(pageWrappers);

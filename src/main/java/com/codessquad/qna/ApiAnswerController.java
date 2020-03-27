@@ -31,6 +31,7 @@ public class ApiAnswerController {
             Answer answer = new Answer(question, contents, sessionedUser);
             question.addAnswer();
             return answerRepository.save(answer);
+
         } catch (IllegalStateException e) {
             return null;
         }
